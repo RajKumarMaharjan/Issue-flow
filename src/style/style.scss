@@ -1,0 +1,13 @@
+@use './compontent/button/button.scss';
+@use './compontent/header/header.scss';
+
+:root {
+    --if-bg: #f5f7fb;
+    --if-surface: #ffffff;
+    --if-border: #e6eaf0;
+    --if-text: #172033;
+    --if-muted: #667085;
+    --if-primary: #4f46e5;
+    --if-primary-dark: #4338ca;
+    --if-shadow: 0 12px 32px rgba(23, 32, 51, 0.06);
+}
