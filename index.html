@@ -28,10 +28,261 @@
             </div>
         </div>
     </header>
+    <main class="container-xxl py-4 py-lg-5">
+        <div id="fatalError" class="alert alert-danger d-none">
+            <strong>IssueFlow could not start.</strong>
+            <span data-role>"fatal -message"</span>
+        </div>
+        <section aria-labelledby="overviewTitle" class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-eyebrow mb-1">Overview</p>
+                    <h2 id="overviewTitle" class="h5 mb-0">Local workspace</h2>
+                </div>
+                <small class="text-secondary">Persisted in IndexedDB via Dexie</small>
+            </div>
+            <div class="row g-3">
+                <div class="col-6 col-xl-3">
+                    <article class="metric-card h-100">
+                        <p class="metric-label">Open</p>
+                        <p id="metricInProgress" class="metric-value">0</p>
+                    </article>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <article class="metric-card h-100">
+                        <p class="metric-label">In progress</p>
+                        <p id="metricInProgress" class="metric-value">0</p>
+                    </article>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <article class="metric-card h-100">
+                        <p class="metric-label">Overdue</p>
+                        <p id="metricOverdue" class="metric-value">0</p>
+                    </article>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <article class="metric-card h-100">
+                        <p class="metric-label">Done</p>
+                        <p id="metricDone" class="metric-value">0</p>
+                    </article>
+                </div>
+        </section>
+        <section class="panel-card" aria-labelledby="issueTitle">
+            <div class="panel-header">
+                <div>
+                    <div class="section-eyebrow mb-1">Workspace</div>
+                    <h2 id="issueTitle" class="h5 mb-0">Issues</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button id="importButton" class="btn btn-outline-secondary btn-sm" type="button">Import
+                        JSON</button>
+                    <button id="exportButton" class="btn btn-outline-secondary btn-sm" type="button">Export
+                        JSON</button>
+                    <button id="resetButton" class="btn btn-outline-danger btn-sm" type="button">Reset demo</button>
+                    <input id="importFile" class="visually-hidden" type="file" accept="application/json,.json">
+                </div>
+            </div>
+            <div class="row g-3 aligin-itams-center px-3 px-lg-4 pt-3">
+                <div class="col-md-6 col-lg-4">
+                    <label for="statusFilter" class="form-label small fw-semibold">Status</label>
+                    <select name="" id="statusFilter" class="form-select js-filter-select">
+                        <option value="open">All statuses</option>
+                        <option value="in-progress">In progress</option>
+                        <option value="blocked">Blocked</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <label for="priorityFilter" class="form-label small fw-semibold">Priority</label>
+                    <select id="priorityFilter" class="form-select js-filter-select">
+                        <option value="">All priorities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive p-3 p-lg-4 pt-lg-3">
+                <table id="issuesTable" class="table table-hover align-middle w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Issue</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Assignee</th>
+                            <th>Due date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <div class="modal fade" id="issueFormModal" tabindex="-1" aria-labelledby="issueFormModalTitle">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <form action="" class="modal-content" novalidate>
+                <div class="modal-header">
+                    <div>
+                        <p class="section-eyebrown mb-1">Issue editor</p>
+                        <h2 id="issueFormModalTitle" data-role="form-modal-title" class="modal-title fs-5">Create issue
+                        </h2>
+                    </div>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="issueId">
+                    <input type="hidden" id="issueCreatedAt">
+
+                    <div data-role="form-error" class="alert alert-danger d-none" role="alert"></div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="issueTitle" class="form-label fw-semibold">Title</label>
+                            <input type="text" id="issueTitle" class="form-control" min-length="5">
+                            <div class="invalid-feedback">Enter a title between 5 and 120 characters.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="issueStatus" class="form-label fw-semibold">Status</label>
+                            <select id="issueStatus" class="form-select" required>
+                                <option value="open">Open</option>
+                                <option value="in-progress">In progress</option>
+                                <option value="blocked">Blocked</option>
+                                <option value="done">Done</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="issuePriority" class="form-label fw-semibold">Priority</label>
+                            <select id="issuePriority" class="form-select" required>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="issueAssignee" class="form-label fw-semibold">Assignee</label>
+                            <select id="issueAssignee" class="form-select" required>
+                                <option value="">Select an assignee</option>
+                            </select>
+                            <div class="invalid-feedback">Select an assignee.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="issueDueDate" class="form-label fw-semibold">Due date</label>
+                            <input id="issueDueDate" class="form-control" type="text" autocomplete="off"
+                                placeholder="YYYY-MM-DD" required>
+                            <div class="invalid-feedback">Choose a due date.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="issueTags" class="form-label fw-semibold">Tags</label>
+                            <select id="issueTags" class="form-select" multiple></select>
+                        </div>
+                        <div class="col-lg-7">
+                            <label for="issueDescription" class="form-label fw-semibold">Description</label>
+                            <textarea id="issueDescription" class="form-control font-monospace" rows="8"
+                                maxlength="3000"
+                                placeholder="A small safe subset of HTML is supported, e.g. &lt;strong&gt;important&lt;/strong&gt;."></textarea>
+                            <div class="form-text">Allowed: paragraphs, lists, emphasis, code and links. Unsafe markup
+                                is sanitized.</div>
+                        </div>
+                        <div class="col-lg-5">
+                            <p class="form-label fw-semibold">Sanitized preview</p>
+                            <div data-role="description-preview" class="safe-preview" aria-live="polite"></div>
+                            <p class="form-text mb-0">Rendered through DOMPurify + a TrustedHTML policy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save issue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="issueDetailsModal" tabindex="-1" aria-labelledby="issueDetailsModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span data-role="details-id" class="text-secondary small">#0</span>
+                            <span data-role="details-status" class="badge rounded-pill text-bg-secondary">Status</span>
+                        </div>
+                        <h2 id="issueDetailsModalTitle" data-role="details-title" class="modal-title fs-5">Issue</h2>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-4">
+                            <p class="detail-label">Priority</p>
+                            <span data-role="details-priority" class="priority-pill priority-medium">Medium</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="detail-label">Assignee</p>
+                            <p data-role="details-assignee" class="mb-0 fw-semibold">—</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="detail-label">Due date</p>
+                            <p data-role="details-due-date" class="mb-0 fw-semibold">—</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="detail-label">Tags</p>
+                        <div data-role="details-tags" class="d-flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div>
+                        <p class="detail-label">Description</p>
+                        <div data-role="details-description" class="issue-description"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-action="edit-current">Edit issue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="confirmModalTitle" data-role="confirm-title" class="modal-title fs-5">Confirm action</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-role="confirm-message" class="mb-0"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" data-role="confirm-button" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">Done.</div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script type="module" src="./src/JS/index.js"></script>
+    <script type="module" src="./src/JS/app.js"></script>
 </body>
 
 </html>

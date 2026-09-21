@@ -1,3 +1,29 @@
+:root {
+  --if-bg: #f5f7fb;
+  --if-surface: #ffffff;
+  --if-border: #e6eaf0;
+  --if-text: #172033;
+  --if-muted: #667085;
+  --if-primary: #4f46e5;
+  --if-primary-dark: #4338ca;
+  --if-shadow: 0 12px 32px rgba(23, 32, 51, 0.06);
+}
+
+html {
+  background: var(--if-bg);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--if-text);
+  background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.08), transparent 26rem), var(--if-bg);
+}
+
+.app-header {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+}
+
 .brand-mark {
   display: inline-grid;
   place-items: center;
@@ -12,13 +38,278 @@
   box-shadow: 0 8px 18px rgba(79, 70, 229, 0.24);
 }
 
-:root {
-  --if-bg: #f5f7fb;
-  --if-surface: #ffffff;
-  --if-border: #e6eaf0;
-  --if-text: #172033;
-  --if-muted: #667085;
-  --if-primary: #4f46e5;
-  --if-primary-dark: #4338ca;
-  --if-shadow: 0 12px 32px rgba(23, 32, 51, 0.06);
+.section-eyebrow {
+  color: var(--if-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.metric-card,
+.panel-card {
+  border: 1px solid var(--if-border);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--if-shadow);
+}
+
+.metric-card {
+  padding: 1.15rem 1.25rem;
+  border-radius: 1rem;
+}
+
+.metric-label {
+  margin: 0 0 0.4rem;
+  color: var(--if-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.metric-value {
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.panel-card {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid var(--if-border);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--if-primary);
+  --bs-btn-border-color: var(--if-primary);
+  --bs-btn-hover-bg: var(--if-primary-dark);
+  --bs-btn-hover-border-color: var(--if-primary-dark);
+}
+
+.table {
+  --bs-table-bg: transparent;
+}
+
+.table thead th {
+  color: var(--if-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.issue-title-link {
+  max-width: 30rem;
+  color: var(--if-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.issue-title-link:hover,
+.issue-title-link:focus-visible {
+  color: var(--if-primary);
+  text-decoration: underline;
+}
+
+.priority-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.priority-low {
+  color: #067647;
+  background: #ecfdf3;
+  border-color: #abefc6;
+}
+
+.priority-medium {
+  color: #854a0e;
+  background: #fffaeb;
+  border-color: #fedf89;
+}
+
+.priority-high {
+  color: #b42318;
+  background: #fef3f2;
+  border-color: #fecdca;
+}
+
+.priority-critical {
+  color: #7a271a;
+  background: #fee4e2;
+  border-color: #fda29b;
+}
+
+.detail-label {
+  margin: 0 0 0.35rem;
+  color: var(--if-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.safe-preview,
+.issue-description {
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid var(--if-border);
+  border-radius: 0.75rem;
+  background: #fbfcfe;
+  overflow-wrap: anywhere;
+}
+
+.issue-description {
+  min-height: 0;
+}
+
+.safe-preview > :last-child,
+.issue-description > :last-child {
+  margin-bottom: 0;
+}
+
+.safe-preview code,
+.issue-description code {
+  padding: 0.1rem 0.28rem;
+  border-radius: 0.25rem;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.safe-preview a,
+.issue-description a {
+  color: var(--if-primary);
+}
+
+/* Select2 + Bootstrap 5 alignment */
+.select2-container .select2-selection--single {
+  min-height: 38px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding: 0.375rem 2.2rem 0.375rem 0.75rem;
+  line-height: 1.5;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+  height: 36px;
+}
+
+.select2-container--default .select2-selection--multiple {
+  min-height: 38px;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.select2-dropdown {
+  z-index: 1090;
+  border-color: #dee2e6;
+}
+
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background: var(--if-primary);
+}
+
+/* jQuery UI datepicker above Bootstrap modal backdrop/content. */
+.ui-datepicker {
+  z-index: 1100 !important;
+  width: 19rem;
+  padding: 0.6rem;
+  border: 1px solid var(--if-border);
+  border-radius: 0.8rem;
+  box-shadow: 0 16px 36px rgba(23, 32, 51, 0.16);
+}
+
+.ui-datepicker .ui-datepicker-header {
+  border: 0;
+  background: transparent;
+}
+
+.ui-datepicker td a,
+.ui-datepicker td span {
+  border-radius: 0.4rem;
+  text-align: center;
+}
+
+.ui-datepicker .ui-state-active {
+  border-color: var(--if-primary) !important;
+  background: var(--if-primary) !important;
+  color: #fff !important;
+}
+
+/* DataTables details */
+div.dt-container .dt-search input,
+div.dt-container .dt-length select {
+  border-color: #dee2e6;
+}
+
+div.dt-container .dt-search input:focus,
+div.dt-container .dt-length select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: 0;
+}
+
+.modal-content {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 24px 64px rgba(23, 32, 51, 0.22);
+}
+
+.toast {
+  border: 1px solid var(--if-border);
+  box-shadow: var(--if-shadow);
+}
+
+@media (max-width: 767.98px) {
+  .panel-header {
+    align-items: flex-start;
+  }
+  .issue-title-link {
+    min-width: 14rem;
+  }
+}
+#issueFormModal .modal-header,
+#issueFormModal .modal-footer {
+  flex: 0 0 auto;
+}
+
+#issueFormModal .modal-body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 575.98px) {
+  #issueFormModal .issue-form-dialog {
+    height: calc(100% - 1rem);
+    margin: 0.5rem;
+  }
+  #issueFormModal .modal-footer .btn {
+    flex: 1 1 0;
+  }
 }/*# sourceMappingURL=style.css.map */
